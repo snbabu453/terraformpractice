@@ -27,7 +27,12 @@ resource "aws_instance" "ec2_instance" {
   instance_type          = "t2.micro"
   vpc_security_group_ids = ["${aws_security_group.examplesg.id}"]
   key_name               = "photosatya2"
+  user_data              = data.template_file.init.rendered
   tags = {
     Name = "my-first-ec2-instance"
   }
+}
+
+data "template_file" "init" {
+  template = file("${path.module}/userdata.tpl")
 }
